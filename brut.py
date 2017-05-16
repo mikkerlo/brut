@@ -1,4 +1,4 @@
-from sys import argv
+import sys
 
 frequency = {'ъ': 4,
                 'р': 473,
@@ -92,8 +92,25 @@ def brut(text):
     return maxx[1]
 
 
+def check_args():
+    file = None
+    n = len(sys.argv)
+    if n < 2:
+        sys.stderr.write('File name not found\n')
+        raise Exception("FileError")
+    encoding = 'utf8'
+    if n >= 3:
+        encoding = sys.argv[2]
+    if file is None:
+        file = open(sys.argv[1], encoding=encoding)
+        s = file.read()
+        file.close()
+        return s
+    return sys.stdin.read()
+
+
 def main():
-    s = input()
+    s = check_args()
     shift = brut(s)
     print(text_shift(s, shift))
 
